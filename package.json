@@ -1,0 +1,16 @@
+{
+  "name": "language-reader",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Learn a language by reading: tap any word for a context-aware AI gloss, track known words, generate graded stories, quiz yourself and listen with text-to-speech.",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "test": "node tests/run-node.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dguywhoknows/language-reader.git"
+  },
+  "homepage": "https://dguywhoknows.github.io/language-reader/",
+  "license": "MIT"
+}
