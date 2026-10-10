@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lang Lens</title>
-<meta name="description" content="Learn a language by reading: tap any word for an AI gloss, track known words, generate graded stories, quiz yourself and listen with text-to-speech.">
+<meta name="description" content="Generate a graded story or paste your own text. Tap a word for a translation that fits the sentence, mark the words you know, and review new ones with spaced repetition. Nine languages are supported.">
 <meta name="app-repo" content="https://github.com/dguywhoknows/language-reader">
 <meta name="app-version" content="2.0.0">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23c2410c'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial%2CHelvetica%2Csans-serif' font-weight='700' font-size='13' fill='white'%3ELL%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23b0552b'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='19' fill='white'%3EL%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style id="type">:root { --font-head: 'Source Serif 4', Georgia, serif; --font-body: 'Source Sans 3', system-ui, sans-serif; }</style>
 <link rel="stylesheet" href="styles/base.css">
 <link rel="stylesheet" href="styles/app.css">
 <script src="src/lib/config.js"></script>
@@ -17,7 +18,7 @@
 </head>
 <body>
 <header class="topbar">
-  <div class="brand"><a class="logo-link" href="index.html" aria-label="Home page"><span class="logo" aria-hidden="true">LL</span></a><div><h1>Lang Lens</h1><p>Read real text. Tap what you don't know.</p></div></div>
+  <div class="brand"><div><h1><a class="logo-link" href="index.html" title="Home page">Lang Lens</a></h1><p>Read real text in another language and look words up in context.</p></div></div>
   <nav class="topnav" data-nav aria-label="Pages"></nav>
   <div class="top-actions"><a class="btn ghost sm" href="https://github.com/dguywhoknows/language-reader" target="_blank" rel="noopener">GitHub</a><span data-ai-badge></span></div>
 </header>

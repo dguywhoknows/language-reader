@@ -1,4 +1,4 @@
-:root { --accent: #c2410c; --new: #3b82f6; --learn: #eab308; }
+:root { --accent: #b0552b; --new: #3b82f6; --learn: #eab308; }
 .layout { display: grid; margin: 0 auto; padding: 24px; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; max-width: 1200px; }
 .side-col { position: sticky; top: 86px; align-self: start; }
 .text { font-family: 'Literata', Georgia, serif; font-size: 21px; line-height: 1.9; margin-top: 14px; }

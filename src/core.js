@@ -1,4 +1,4 @@
-/* core.js — tokenization, comprehension estimates, spaced-repetition scheduling, cloze cards, answer grading and vocabulary import/export (pure, unit-tested). */
+/* Tokenization, comprehension estimates, spaced-repetition scheduling, cloze cards, answer grading and vocabulary import/export (pure, unit-tested). */
 
 var LANGS = { es: 'Spanish', fr: 'French', de: 'German', it: 'Italian', pt: 'Portuguese', nl: 'Dutch', ja: 'Japanese', ko: 'Korean', zh: 'Chinese' };
 var DAY_MS = 864e5;
