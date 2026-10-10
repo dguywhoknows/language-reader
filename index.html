@@ -3,91 +3,81 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lang Lens</title>
-<meta name="description" content="Learn a language by reading: tap any word for an AI gloss, track known words, generate graded stories, quiz yourself and listen with text-to-speech.">
-<meta name="app-repo" content="https://github.com/dguywhoknows/language-reader">
-<meta name="app-version" content="2.0.0">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23c2410c'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial%2CHelvetica%2Csans-serif' font-weight='700' font-size='13' fill='white'%3ELL%3C/text%3E%3C/svg%3E">
+<title>Lang Lens: Learn a language by reading things you enjoy</title>
+<meta name="description" content="Tap any word for a meaning that fits the sentence, track the words you know, and review them with spaced repetition.">
+<meta property="og:title" content="Lang Lens">
+<meta property="og:description" content="Tap any word for a meaning that fits the sentence, track the words you know, and review them with spaced repetition.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23c2410c'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='700' font-size='13' fill='white'%3ELL%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles/base.css">
-<link rel="stylesheet" href="styles/app.css">
+<link rel="stylesheet" href="styles/landing.css">
+<style>:root { --accent: #c2410c; }</style>
 </head>
-<body>
-<header class="topbar">
-  <div class="brand"><span class="logo" aria-hidden="true">LL</span><div><h1>Lang Lens</h1><p>Read real text. Tap what you don't know.</p></div></div>
-  <nav class="topnav" data-nav aria-label="Pages"></nav>
-  <div class="top-actions"><a class="btn ghost sm" href="https://github.com/dguywhoknows/language-reader" target="_blank" rel="noopener">GitHub</a><span data-ai-badge></span></div>
+<body class="landing">
+<header class="l-nav">
+  <a class="l-brand" href="#top"><span class="logo">LL</span><b>Lang Lens</b></a>
+  <nav aria-label="Sections"><a href="#demo">Demo</a><a href="#ask">Ask it</a><a href="#features">Features</a><a href="#faq">FAQ</a></nav>
+  <div class="l-nav-cta"><a class="btn primary" href="app.html">Open the app</a></div>
 </header>
-<div class="page active" data-page="read" data-title="Read">
-<main class="layout">
-  <section class="stack">
-    <div class="card">
-      <div class="row">
-        <select id="lang" style="width:auto"></select>
-        <select id="cefr" style="width:auto" aria-label="Level"><option>A1</option><option selected>A2</option><option>B1</option><option>B2</option><option>C1</option></select>
-        <input class="input grow" id="topic" placeholder="Story topic, e.g. a lost cat in Madrid" value="a morning at the market">
-        <button class="btn primary" id="gen">Graded story</button>
-        <button class="btn ghost" id="pasteBtn">Paste my own text</button>
-      </div>
-      <textarea id="paste" class="hidden" rows="5" placeholder="Paste any text in your target language, then press Load." style="margin-top:10px"></textarea>
-      <div class="row hidden" id="pasteRow" style="margin-top:8px"><button class="btn" id="load">Load text</button></div>
-    </div>
-    <article class="card reader">
-      <div class="row between"><h2 id="title" style="margin:0"></h2><div class="row"><span class="tag" id="level"></span><span class="tag accent" id="comp"></span><button class="btn sm ghost" id="speakAll">Read aloud</button></div></div>
-      <div id="text" class="text" lang=""></div>
-      <div class="legend small muted"><span class="w new">new</span> <span class="w learning">learning</span> <span class="w known">known</span> · click a word to look it up, click the ¶ mark to translate a sentence</div>
-    </article>
-    <div class="card"><div class="row between"><h2 style="margin:0">Comprehension quiz</h2><button class="btn sm" id="quizBtn">Generate quiz</button></div><div id="quiz"></div></div>
+
+<main id="top">
+  <section class="l-hero">
+    <p class="l-kicker">Free · runs in your browser · AI built in</p>
+    <h1>Learn a language by reading things you enjoy.</h1>
+    <p class="l-sub">Tap any word for a meaning that fits the sentence, track the words you know, and review them with spaced repetition.</p>
+    <div class="l-actions"><a class="btn primary big" href="app.html">Open the app</a><a class="btn big" href="#demo">See it working</a></div>
   </section>
-  <aside class="stack side-col">
-    <div class="card gloss" id="gloss"><div class="empty">Tap any word.</div></div>
-    <div class="card">
-      <h2>Vocabulary</h2>
-      <div class="grid cols-3" id="vstats"></div>
-      <div class="row" style="margin-top:10px"><button class="btn sm" id="markAll">Mark remaining new as known</button><button class="btn sm ghost" id="exportV">Export CSV</button></div>
-      <div id="learningList" class="learning-list"></div>
+
+  <section class="l-demo reveal" id="demo">
+    <div class="l-window"><div class="l-window-bar"><i></i><i></i><i></i><span>Lang Lens</span></div>
+      <iframe src="app.html?embed=1" title="Lang Lens live demo" loading="lazy"></iframe></div>
+    <p class="l-caption">This is the real app running below, not a recording. Try it.</p>
+  </section>
+
+  <section class="l-section reveal" id="ask">
+    <div class="l-head"><p class="l-kicker">Just say what you want</p><h2>Tell it in plain words. It uses its own tools to do it.</h2>
+      <p>Open the AI box in the app, type a request, and the AI drives the app's real features for you: it sets things up, edits, runs and reports back. Standing instructions let you shape every AI feature to how you like to work.</p></div>
+    <div class="l-prompts"><div class="l-prompt"><div class="say">Write me a short A2 Spanish story about football</div><div class="does">Generates a graded story and opens it.</div></div><div class="l-prompt"><div class="say">Mark every word in this story as known</div><div class="does">Updates your vocabulary.</div></div><div class="l-prompt"><div class="say">Review my words with fill-in-the-gap</div><div class="does">Starts a cloze review session.</div></div></div>
+  </section>
+
+  <section class="l-section reveal" id="features">
+    <div class="l-head"><p class="l-kicker">What it does</p><h2>Everything in one place</h2></div>
+    <div class="l-grid"><div class="l-card"><h3>AI graded stories at CEFR A1-C1</h3><p>AI graded stories at CEFR A1-C1 on any topic, or bring your own text</p></div><div class="l-card"><h3>Language-aware tokenization</h3><p>Language-aware tokenization with Intl.Segmenter (word + sentence), including CJK</p></div><div class="l-card"><h3>Per-language vocabulary graph</h3><p>New → learning → known, with lookup counts</p></div><div class="l-card"><h3>Context-sensitive glosses</h3><p>Context-sensitive glosses (lemma, POS, gender, example, grammar note), cached locally</p></div><div class="l-card"><h3>Sentence translation toggles</h3><p>Sentence translation toggles, text-to-speech for words and full text</p></div><div class="l-card"><h3>Token-weighted comprehension estimate</h3><p>Token-weighted comprehension estimate, &#x27;mark remaining as known&#x27;, CSV export</p></div><div class="l-card"><h3>AI comprehension quiz</h3><p>AI comprehension quiz with instant local grading</p></div><div class="l-card"><h3>Review page</h3><p>Spaced repetition (SM-2 variant) over the words you looked up, either recalling the meaning or typing the missing word into the sentence you met it in; answers are graded tolerantly for accents, case and a single typo, and words graduate to known after a three-week interval</p></div><div class="l-card"><h3>Library page</h3><p>Every generated, pasted or imported .txt text is kept per language with its estimated level, word count and how much of it you understand</p></div></div>
+  </section>
+
+  <section class="l-section reveal">
+    <div class="l-head"><p class="l-kicker">How it works</p><h2>Real engines where it counts, AI where it helps</h2></div>
+    <div class="l-steps">
+      <div><span>1</span><h3>Open the app</h3><p>No sign-up needed right now. Everything runs in your browser.</p></div>
+      <div><span>2</span><h3>Ask in your own words</h3><p>Type or click. The AI handles graded reader generation constrained to CEFR level; context-aware dictionary lookups (JSON); sentence translation and comprehension-quiz generation.</p></div>
+      <div><span>3</span><h3>Keep what you make</h3><p>Your work is saved in your browser and can be exported any time.</p></div>
     </div>
-  </aside>
-</main>
-</div>
-<div class="page" data-page="review" data-title="Review">
-<main class="stack" style="max-width:760px">
-  <div class="page-head"><div><h2>Review</h2><p id="revSummary"></p></div><div class="row"><select id="revMode" style="width:auto" aria-label="Review mode"><option value="recall">Recall the meaning</option><option value="cloze">Fill the gap (type the word)</option></select><button class="btn primary" id="revStart">Start</button></div></div>
-  <div id="revCard"></div>
-</main>
-</div>
+    <p class="l-note">Computed locally, with no AI involved: tokenization, vocabulary state, comprehension scoring, TTS, persistence, export.</p>
+  </section>
 
-<div class="page" data-page="library" data-title="Library">
-<main class="stack">
-  <div class="page-head"><div><h2>Library</h2><p id="libSummary"></p></div><label class="btn ghost">Import .txt<input type="file" id="libFile" accept=".txt,text/plain" hidden></label></div>
-  <div class="grid cols-3" id="libList"></div>
-</main>
-</div>
+  <section class="l-section reveal" id="faq">
+    <div class="l-head"><p class="l-kicker">Questions</p><h2>Good to know</h2></div>
+    <div class="l-faq">
+      <details><summary>Is it free?</summary><p>Yes. Every feature is free. </p></details>
+      <details><summary>Where is my data stored?</summary><p>What you create stays in this browser on this device. You can export a backup or delete everything from Settings.</p></details>
+      <details><summary>Do I need an API key?</summary><p>Not to try it: the app runs in demo mode with sample AI output. For live AI, connect a free Groq or OpenRouter key in Settings.</p></details>
+      <details><summary>What can I type into the AI box?</summary><p>Anything you would ask a helpful colleague who knows the app, such as: "Write me a short A2 Spanish story about football". It plans the steps, runs the app's own functions and tells you what it did. The Instructions tab saves preferences every AI feature follows.</p></details>
+      <details><summary>Can I see the code?</summary><p>Yes. It is open source under the MIT license on <a href="https://github.com/dguywhoknows/language-reader" rel="noopener">GitHub</a>, with a <a href="tests/">public test suite</a>.</p></details>
+    </div>
+  </section>
 
-<div class="page" data-page="vocab" data-title="Vocabulary">
-<main class="stack">
-  <div class="card row"><input class="input grow" id="vSearch" placeholder="Search words or translations" aria-label="Search"><select id="vState" style="width:auto" aria-label="Filter"><option value="">All</option><option value="learning">Learning</option><option value="known">Known</option><option value="due">Due for review</option></select><button class="btn ghost" id="vCsv">CSV</button><button class="btn ghost" id="vAnki">Anki</button><label class="btn ghost">Import<input type="file" id="vImport" accept=".csv,.tsv,.txt" hidden></label></div>
-  <div class="card table-wrap" style="max-height:640px"><table id="vTable"></table></div>
+  <section class="l-final reveal">
+    <h2>Learn a language by reading things you enjoy.</h2>
+    <a class="btn primary big" href="app.html">Open the app</a>
+  </section>
 </main>
-</div>
 
-<div class="page" data-page="stats" data-title="Stats">
-<main class="stack">
-  <div class="kpis" id="sKpis"></div>
-  <div class="grid cols-2">
-    <div class="card"><h2>Last 30 days</h2><div id="sChart"></div></div>
-    <div class="card"><h2>Most frequent new words in this text</h2><div id="sFreq"></div></div>
-  </div>
-</main>
-</div>
-
-<div class="page" data-page="settings" data-title="Settings"></div>
-<script src="src/lib/dom.js"></script>
-<script src="src/lib/ai.js"></script>
-<script src="src/lib/router.js"></script>
-<script src="src/core.js"></script>
-<script src="src/demo.js"></script>
-<script src="src/app.js"></script>
+<footer class="l-foot"><span>Lang Lens</span><span><a href="https://github.com/dguywhoknows/language-reader" rel="noopener">Source</a> · <a href="tests/">Tests</a> · MIT license</span></footer>
+<script>
+document.querySelectorAll('.reveal').forEach((el) => el.classList.add('pre'));
+const io = new IntersectionObserver((es) => es.forEach((x) => { if (x.isIntersecting) { x.target.classList.remove('pre'); io.unobserve(x.target); } }), { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+</script>
 </body>
 </html>

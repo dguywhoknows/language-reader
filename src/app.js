@@ -344,3 +344,23 @@ Router.on('library', renderLibrary);
 Router.on('vocab', renderVocab);
 Router.on('stats', renderStats);
 loadLanguage();
+
+/* ================= AI command box ================= */
+const langCode = (l) => { const s = String(l || '').toLowerCase(); return LANGS[s] ? s : Object.keys(LANGS).find((k) => LANGS[k].toLowerCase() === s) || null; };
+const switchLang = (l) => { const k = langCode(l); if (k && k !== lang) { lang = k; store.set('lens.lang', lang); loadLanguage(); } };
+Copilot.register({
+  context: () => `Language: ${LANGS[lang]}. Open text: ${doc ? `"${doc.title}" (${$('#comp').textContent})` : 'none'}. Library: ${library.map((x) => x.title).join(' | ')}. Vocabulary: ${Object.values(vocab).filter((v) => v.state === 'known').length} known, ${Object.values(vocab).filter((v) => v.state === 'learning').length} learning, ${dueWords(vocab, Date.now()).length} due. Languages: ${Object.entries(LANGS).map(([k, v]) => `${k}=${v}`).join(', ')}.`,
+  actions: [
+    { name: 'write_story', description: 'Generate a graded reader story and open it', params: { language: 'language name or code', level: 'CEFR A1-C1', topic: 'topic' },
+      run: async ({ language, level, topic }) => { switchLang(language); if (level) $('#cefr').value = String(level).toUpperCase(); if (topic) $('#topic').value = topic; Router.go('read'); await genStory(); return `Opened "${doc.title}" (${$('#comp').textContent})`; } },
+    { name: 'mark_all_known', description: 'Mark every new word in the open text as known', params: {}, run: () => { $('#markAll').click(); return $('#comp').textContent; } },
+    { name: 'set_word', description: 'Set words to new, learning or known', params: { words: 'comma-separated words', state: 'new | learning | known' },
+      run: ({ words, state }) => { const s = ['new', 'learning', 'known'].includes(state) ? state : 'learning'; const ws = String(words).split(',').map((x) => key(x.trim())).filter(Boolean); ws.forEach((w) => setState(w, vocab[w] || (vocab[w] = { seen: 0, added: Date.now() }), s)); return `${ws.join(', ')} -> ${s}`; } },
+    { name: 'look_up', description: 'Look up a word from the open text in context', params: { word: 'word' }, run: async ({ word }) => { Router.go('read'); const s = doc?.paras.flat().find((x) => x.tokens.some((t) => t.w && key(t.t) === key(word))); await lookup(word, s ? s.text : word); return `${word}: ${vocab[key(word)]?.gloss?.translation || ''}`; } },
+    { name: 'start_review', description: 'Start reviewing due words', params: { mode: [...$('#revMode').options].map((o) => o.value).join(' | ') }, run: ({ mode }) => { Router.go('review'); if (mode && [...$('#revMode').options].some((o) => o.value === mode)) $('#revMode').value = mode; startReview(); return queue.length ? `Reviewing ${queue.length} words` : 'Nothing is due right now'; } },
+    { name: 'comprehension_quiz', description: 'Make a comprehension quiz for the open text', params: {}, run: async () => { Router.go('read'); await quiz(); return 'Quiz ready under the text'; } },
+    { name: 'open_text', description: 'Open a text from the library', params: { title: 'title' }, run: ({ title }) => { const x = library.find((t) => t.title.toLowerCase().includes(String(title).toLowerCase())); if (!x) throw new Error('No text ' + title); openText(x); return `Opened ${x.title}`; } },
+    { name: 'vocab_stats', query: true, description: 'Look up vocabulary counts, due words, streak and the most frequent unknown words in the open text', params: {},
+      run: () => JSON.stringify({ language: LANGS[lang], known: Object.values(vocab).filter((v) => v.state === 'known').length, learning: Object.entries(vocab).filter(([, v]) => v.state === 'learning').map(([w, v]) => `${w}=${v.gloss?.translation || '?'}`).slice(0, 60), due: dueWords(vocab, Date.now()).length, streak: streakDays(events, Date.now()), openText: doc ? { title: doc.title, comprehension: $('#comp').textContent, topUnknown: frequencies(docWords(doc.paras, lang)).filter((x) => !vocab[x.word] || vocab[x.word].state === 'new').slice(0, 12).map((x) => x.word) } : null }) },
+  ],
+});
